@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from aiogram import Dispatcher, Bot
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
+from aiogram.types import BotCommand
 
 from routers import router
 import game as _game
@@ -21,6 +22,13 @@ async def main():
 
     info = await bot.get_me()
     _game.bot_username = info.username
+
+    await bot.set_my_commands([
+        BotCommand(command="newgame", description="Начать новую игру (в группе)"),
+        BotCommand(command="help",    description="Как играть через бота"),
+        BotCommand(command="rules",   description="Правила игры"),
+        BotCommand(command="endgame", description="Завершить игру досрочно (хост)"),
+    ])
 
     dp = Dispatcher()
     dp.include_router(router)
